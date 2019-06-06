@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+const toQueryString = params =>
+  Object.keys(params)
+    .map(key => {
+      return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
+    })
+    .join('&');
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -58,9 +65,17 @@ class App extends Component {
     tweets: [],
   };
 
-  onChange = event =>
+  onChange = event => {
+    const text = event.target.value;
+    const hashtags = text.split(' ').filter(word => word[0] === '#');
+    const usernames = text.split(' ').filter(word => word[0] === '@');
+
     fetch(
-      `http://localhost:8000/?text=${encodeURIComponent(event.target.value)}`
+      `http://localhost:8000/?${toQueryString({
+        text,
+        hashtags,
+        usernames,
+      })}`
     )
       .then(res => res.json())
       .then(tweets =>
@@ -71,8 +86,10 @@ class App extends Component {
         }))
       )
       .then(tweets => this.setState({ tweets }));
+  };
 
   render() {
+    console.log(this.state.tweets);
     return (
       <Container>
         <h1>ornithology</h1>

@@ -16,10 +16,11 @@ with open(filename, 'r') as tweets:
       "username": tweet['user']['name'],
       "user_image": tweet['user']['profile_image_url'],
       "user_id": tweet['user']['id'],
+      "user_screenname": tweet['user']['screen_name'],
       "time": tweet['created_at'],
       "text": tweet['text'],
       "urls": tweet['entities']['urls'],
       "hashtags": tweet['entities']['hashtags']
     }
-    es.index(index="tweets_test", ignore=400, body=tweet_data, doc_type="document")
+    es.index(index="tweets", ignore=400, body=tweet_data, doc_type="document")
     i += 1

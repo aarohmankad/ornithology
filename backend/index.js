@@ -39,17 +39,39 @@ server.use(function(req, res, next) {
 });
 
 server.get('/', (req, res) => {
+  const filters = [{ match: { text: req.query.text } }];
+
+  if (req.query.hashtags && req.query.hashtags.length) {
+    filters.push({
+      match_phrase: {
+        'hashtags.text': req.query.hashtags,
+      },
+    });
+  }
+
+  if (req.query.usernames && req.query.usernames.length) {
+    filters.push({
+      match_phrase: {
+        user_screenname: req.query.usernames,
+      },
+    });
+  }
+
   return client
     .search({
       index: 'tweets',
       explain: true,
       body: {
         query: {
-          match: req.query,
+          bool: {
+            should: filters,
+          },
         },
       },
     })
-    .then(({ body }) => res.send(body.hits.hits));
+    .then(({ body }) => {
+      return res.send(body.hits.hits);
+    });
 });
 
 server.listen(8000);
