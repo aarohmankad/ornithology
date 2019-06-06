@@ -89,7 +89,6 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state.tweets);
     return (
       <Container>
         <h1>ornithology</h1>
