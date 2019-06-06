@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { MapContainer } from './Map';
 
 const Container = styled.div`
   display: flex;
@@ -7,6 +8,7 @@ const Container = styled.div`
   width: 75%;
   margin: 0 auto;
   align-items: center;
+  overflow: visible;
 `;
 const Input = styled.input`
   width: 50%;
@@ -74,6 +76,7 @@ class App extends Component {
 
   render() {
     return (
+      <>
       <Container>
         <h1>ornithology</h1>
         <Input type="text" onChange={this.onChange} autoFocus />
@@ -93,7 +96,16 @@ class App extends Component {
             </Card>
           ))}
         </Cards>
+        
       </Container>
+      <MapContainer
+        isMarkerShown
+        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtD3mBC2qK_WKurOSTDxcmYcTlpgdGVwM&v=3.exp&libraries=geometry,drawing,places"
+        loadingElement={<div style={{ height: `100%` }} />}
+        containerElement={<div style={{ height: `400px` }} />}
+        mapElement={<div style={{ height: `100%` }} />}
+      />
+    </>
     );
   }
 }

@@ -41,7 +41,7 @@ server.use(function(req, res, next) {
 server.get('/', (req, res) => {
   return client
     .search({
-      index: 'tweets',
+      index: 'tweets_test3',
       explain: true,
       body: {
         query: {
